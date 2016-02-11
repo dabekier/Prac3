@@ -22,17 +22,43 @@
 		<!-- This is, well, the bottom bit -->
 		<div class="bottombit">
 			<p class="explanation">Intrepid spy, your next dead drop location is 37.4258709,-122.1712977.</p>
-			<div id="button">Refresh GPS: <div id="timer"></div></div>
-
+			<div id="button" >Refresh GPS: <div id="timer"></div></div>
+					
 			<div class="area">
-				<div class="box box1"><div id="latitude">Blah</div></div>
-				<div class="box box2"><div id="longitude">Blah</div></div>
+				<div class="box box1"><div id="longitude">Blah</div></div>
+				<div class="box box2"><div id="latitude">Blah</div></div>
 			</div>
-
-
-
+			<p><font color="blue">Click the button to get your coordinates.</font></p>
+		</div>
+		<!--  Button insert  -->
+		<div><button onclick="getLocation()">Click Here</button></div>
+		<!--  Map insert  -->
+		<div id="map"></div>
+		
 		<script>
-
-</script>
+		var x = document.getElementById("longitude");
+		var y = document.getElementById("latitude");
+			
+		function getLocation(){
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			} else { 
+				x.innerHTML = "Please Change Browser";
+				y.innerHTML = "Please Change Browser";
+			}
+		}
+		
+		function showPosition(position) {
+			//fill in boxes
+			x.innerHTML = "Latitude:<br>" + position.coords.latitude.toFixed(5); 
+			y.innerHTML = "Longitude:<br>" + position.coords.longitude.toFixed(5);	
+		
+			//start map
+			var LatAndLong = position.coords.latitude + "," + position.coords.longitude;
+            var img_link = "http://maps.googleapis.com/maps/api/staticmap?center=" + LatAndLong + "&zoom=15&size=400x400&sensor=false";
+            document.getElementById("map").innerHTML = "<img src='" + img_link + "'>";
+		}
+		
+		</script>
 	</body>
 </html>
